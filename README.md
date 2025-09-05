@@ -80,10 +80,14 @@ python traffic_signal_detection.py
 ---
 
 ## Screenshots
+<img width="273" height="598" alt="image" src="https://github.com/user-attachments/assets/94fb128f-1fad-4bfd-b2c2-9bdc0a0fa4fa" />
+<img width="906" height="564" alt="image" src="https://github.com/user-attachments/assets/e910938f-5ac5-4ae4-9abd-5bdf733fd644" />
+<img width="318" height="646" alt="image" src="https://github.com/user-attachments/assets/22162e2b-094f-4d1e-af78-0e4bb1c88a97" />
+<img width="332" height="631" alt="image" src="https://github.com/user-attachments/assets/9a3678d0-ac74-4889-9e68-46ffc10bca9a" />
 
-*(Add screenshots here if desired)*
 
----
+
+
 
 ## Author
 

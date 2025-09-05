@@ -24,26 +24,6 @@ An interactive demo of this project is also available using Streamlit.
 * NumPy for numerical operations
 * Streamlit for web deployment
 
-**Folder Structure:**
-
-Dhriti_RealTime.TrafficLight.Detection/
-│
-├─ image/                # Sample images for testing
-│   ├─ red.jpg
-│   ├─ yellow.jpg
-│   ├─ green.jpg
-│   └─ traffic light.jpg
-│
-├─ video/                # Sample videos for testing
-│   ├─ traffic signal.mp4
-│   └─ traffic signal_demo.mp4
-│
-├─ traffic_signal_detection.py   # Main Python script
-├─ app.py                       # Streamlit deployment script
-└─ README.md
-
-
-
 **Usage:**
 
 **Run Locally:**

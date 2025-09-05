@@ -26,19 +26,17 @@ An interactive demo of this project is also available using Streamlit.
 
 **Folder Structure:**
 Dhriti_RealTime.TrafficLight.Detection/
-│
 ├─ image/ # Sample images for testing
 │ ├─ red.jpg
 │ ├─ yellow.jpg
 │ ├─ green.jpg
 │ └─ traffic light.jpg
-│
 ├─ video/ # Sample video for testing
 │ ├─ traffic signal.mp4
-│
 ├─ traffic_signal_detection.py # Main Python script
 ├─ app.py # Streamlit deployment script
 └─ README.md
+
 **Usage:**
 
 **Run Locally:**

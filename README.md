@@ -1,7 +1,3 @@
-Here’s a clean, professional version of your content formatted nicely for a report or presentation without extra code blocks or markdown clutter:
-
----
-
 **Title:** 🛑 Traffic Light Detection using OpenCV
 
 **Description:**

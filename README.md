@@ -28,18 +28,20 @@ An interactive demo of this project is also available using Streamlit.
 
 Dhriti_RealTime.TrafficLight.Detection/
 │
-├─ image/ # Sample images for testing
-│ ├─ red.jpg
-│ ├─ yellow.jpg
-│ ├─ green.jpg
-│ └─ traffic light.jpg
+├─ image/                # Sample images for testing
+│   ├─ red.jpg
+│   ├─ yellow.jpg
+│   ├─ green.jpg
+│   └─ traffic light.jpg
 │
-├─ video/ # Sample video for testing
-│ ├─ traffic signal.mp4
+├─ video/                # Sample videos for testing
+│   ├─ traffic signal.mp4
+│   └─ traffic signal_demo.mp4
 │
-├─ traffic_signal_detection.py # Main Python script
-├─ app.py # Streamlit deployment script
+├─ traffic_signal_detection.py   # Main Python script
+├─ app.py                       # Streamlit deployment script
 └─ README.md
+
 
 
 **Usage:**

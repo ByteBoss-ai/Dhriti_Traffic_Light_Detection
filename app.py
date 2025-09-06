@@ -1,21 +1,17 @@
 import streamlit as st
 import cv2
 import numpy as np
-import tempfile
-import os
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
+import av  # <-- needed for converting frames
 
-st.title("Real-Time Traffic Light Detection")
+st.title("🚦 Real-Time Traffic Light Detection")
 
-# 1. Choose input type
-input_type = st.radio("Select input type:", ("Webcam", "Video file", "Image file"))
-
-# 2. HSV Ranges
+# HSV Ranges
 lower_red1, upper_red1 = np.array([0, 100, 100]), np.array([10, 255, 255])
 lower_red2, upper_red2 = np.array([160, 100, 100]), np.array([179, 255, 255])
 lower_yellow, upper_yellow = np.array([15, 100, 100]), np.array([35, 255, 255])
 lower_green, upper_green = np.array([40, 100, 100]), np.array([90, 255, 255])
 
-# 3. Functions
 def draw_contours(mask, color, frame):
     contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for cnt in contours:
@@ -44,33 +40,49 @@ def process_frame(frame):
     mask_red = cv2.bitwise_or(mask_red1, mask_red2)
     mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
     mask_green = cv2.inRange(hsv, lower_green, upper_green)
-    draw_contours(mask_red, (0,0,255), frame)
-    draw_contours(mask_yellow, (0,255,255), frame)
-    draw_contours(mask_green, (0,255,0), frame)
+
+    draw_contours(mask_red, (0, 0, 255), frame)
+    draw_contours(mask_yellow, (0, 255, 255), frame)
+    draw_contours(mask_green, (0, 255, 0), frame)
+
     state = classify_state(mask_red, mask_yellow, mask_green)
-    cv2.putText(frame, f"Traffic Light: {state}", (50,50),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+    cv2.putText(frame, f"Traffic Light: {state}", (30, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     return frame
 
-# 4. Handle Input
-if input_type == "Image file":
+# FIXED VideoTransformer
+class VideoTransformer(VideoProcessorBase):
+    def recv(self, frame):
+        img = frame.to_ndarray(format="bgr24")
+        processed = process_frame(img)
+        return av.VideoFrame.from_ndarray(processed, format="bgr24")  # FIXED
+
+# Sidebar
+st.sidebar.title("Options")
+input_type = st.sidebar.radio("Select input type:", ("Webcam", "Image Upload", "Video Upload"))
+
+if input_type == "Webcam":
+    webrtc_streamer(
+        key="example",
+        video_processor_factory=VideoTransformer,
+        media_stream_constraints={"video": True, "audio": False}
+    )
+
+elif input_type == "Image Upload":
     uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
     if uploaded_file:
-        tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
-        tfile.write(uploaded_file.read())
-        tfile.close()
-        img = cv2.imread(tfile.name)
-        os.remove(tfile.name)  # safe to delete after reading
+        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+        img = cv2.imdecode(file_bytes, 1)
         processed = process_frame(img)
-        st.image(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB))
+        st.image(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB), channels="RGB")
 
-elif input_type == "Video file":
+elif input_type == "Video Upload":
     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
     if uploaded_file:
-        tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
-        tfile.write(uploaded_file.read())
-        tfile.close()
-        cap = cv2.VideoCapture(tfile.name)
+        tfile = "temp_video.mp4"
+        with open(tfile, "wb") as f:
+            f.write(uploaded_file.read())
+        cap = cv2.VideoCapture(tfile)
 
         stframe = st.empty()
         while cap.isOpened():
@@ -78,9 +90,5 @@ elif input_type == "Video file":
             if not ret:
                 break
             processed = process_frame(frame)
-            stframe.image(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB))
+            stframe.image(cv2.cvtColor(processed, cv2.COLOR_BGR2RGB), channels="RGB")
         cap.release()
-        os.remove(tfile.name)  # delete after release
-
-elif input_type == "Webcam":
-    st.warning("Webcam streaming is not supported directly in Streamlit. Please upload a video instead.")

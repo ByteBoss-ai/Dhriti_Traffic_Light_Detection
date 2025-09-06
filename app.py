@@ -2,7 +2,7 @@ import streamlit as st
 import cv2
 import numpy as np
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
-import av  # <-- needed for converting frames
+import av  # needed for converting frames
 
 st.title("🚦 Real-Time Traffic Light Detection")
 

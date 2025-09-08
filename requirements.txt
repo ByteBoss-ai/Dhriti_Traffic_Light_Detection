@@ -1,5 +1,4 @@
-streamlit
+Flask
 numpy
-opencv-python-headless==4.8.1.78
-streamlit-webrtc
-av
+opencv-python
+Werkzeug

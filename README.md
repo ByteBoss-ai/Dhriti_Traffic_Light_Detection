@@ -50,6 +50,4 @@ An interactive demo of this project is also available using Streamlit.
 Dhriti Gupta
 GitHub Profile: [https://github.com/ByteBoss-ai](https://github.com/ByteBoss-ai)
 
----
 
-If you want, I can **turn this into a visually appealing one-page PDF or slide**, with sections highlighted, icons for features/tech, and the screenshots arranged neatly for a professional look. Do you want me to do that?
